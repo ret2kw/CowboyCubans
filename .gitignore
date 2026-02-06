@@ -5,6 +5,9 @@ id_*
 !id_*.pub
 !*.sops
 
+# Claude Code local state
+.claude/
+
 # OS files
 .DS_Store
 Thumbs.db

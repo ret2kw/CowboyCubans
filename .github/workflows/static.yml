@@ -1,0 +1,101 @@
+# Deploy Cowboy Cubans static site to GitHub Pages
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+# GitHub Pages deployment permissions
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+# Configure your site URL here
+env:
+  SITE_URL: https://cowboycubans.com
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Create deploy directory and copy site files
+        run: |
+          mkdir -p pages/css pages/js
+          cp index.html pages/
+          cp styles.css pages/css/styles.css
+          cp script.js pages/js/script.js
+          cp -r images pages/
+          cp -r fonts pages/
+          ls -la pages/
+
+      - name: Minify CSS
+        uses: nizarmah/auto-minify@v3
+        with:
+          directory: 'pages/css'
+          output: 'pages/css'
+
+      - name: Minify JS
+        uses: nizarmah/auto-minify@v3
+        with:
+          directory: 'pages/js'
+          output: 'pages/js'
+
+      - name: Replace original files with minified versions
+        run: |
+          mv pages/css/styles.min.css pages/css/styles.css
+          mv pages/js/script.min.js pages/js/script.js
+
+      - name: Update asset paths in HTML
+        run: |
+          # Update CSS path (handles both versioned and non-versioned)
+          sed -i 's|href="styles\.css[^"]*"|href="css/styles.css"|g' pages/index.html
+          # Update JS path (handles both versioned and non-versioned)
+          sed -i 's|src="script\.js[^"]*"|src="js/script.js"|g' pages/index.html
+
+      - name: Generate sitemap
+        id: sitemap
+        uses: cicirello/generate-sitemap@v1
+        with:
+          path-to-root: pages
+          base-url-path: ${{ env.SITE_URL }}
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: 'pages'
+
+      - name: Output build stats
+        run: |
+          echo "Sitemap: ${{ steps.sitemap.outputs.sitemap-path }}"
+          echo "Files to deploy:"
+          find pages -type f | head -20
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Ping Google with sitemap
+        run: |
+          curl -s "${{ env.SITE_URL }}/sitemap.xml" > /dev/null && \
+          curl -s "https://www.google.com/ping?sitemap=${{ env.SITE_URL }}/sitemap.xml"

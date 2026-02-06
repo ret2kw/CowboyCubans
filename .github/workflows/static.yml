@@ -62,7 +62,8 @@ jobs:
           # Update JS path (handles both versioned and non-versioned)
           sed -i 's|src="script\.js[^"]*"|src="js/script.js"|g' pages/index.html
           # Fix font paths in CSS (fonts/ -> ../fonts/ since CSS is now in css/)
-          sed -i "s|url('fonts/|url('../fonts/|g" pages/css/styles.css
+          # Handle both quoted and unquoted URLs (minifier may remove quotes)
+          sed -i "s|url(['\"]fonts/|url('../fonts/|g; s|url(fonts/|url(../fonts/|g" pages/css/styles.css
 
       - name: Generate sitemap
         id: sitemap

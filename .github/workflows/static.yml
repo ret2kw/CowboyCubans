@@ -55,12 +55,14 @@ jobs:
           mv pages/css/styles.min.css pages/css/styles.css
           mv pages/js/script.min.js pages/js/script.js
 
-      - name: Update asset paths in HTML
+      - name: Update asset paths in HTML and CSS
         run: |
           # Update CSS path (handles both versioned and non-versioned)
           sed -i 's|href="styles\.css[^"]*"|href="css/styles.css"|g' pages/index.html
           # Update JS path (handles both versioned and non-versioned)
           sed -i 's|src="script\.js[^"]*"|src="js/script.js"|g' pages/index.html
+          # Fix font paths in CSS (fonts/ -> ../fonts/ since CSS is now in css/)
+          sed -i "s|url('fonts/|url('../fonts/|g" pages/css/styles.css
 
       - name: Generate sitemap
         id: sitemap

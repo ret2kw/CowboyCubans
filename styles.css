@@ -1,0 +1,697 @@
+/* Custom Font Faces */
+@font-face {
+    font-family: 'Buffalo Gal';
+    src: url('fonts/BuffaloGalMTStd.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'UnifrakturMaguntia';
+    src: url('fonts/UnifrakturMaguntia..woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* CSS Variables */
+:root {
+    --color-bg: #A8D8E8;
+    --color-text: #1a1a1a;
+    --color-text-light: #333333;
+    --color-black: #000000;
+    --color-white: #FFFFFF;
+    --color-gold: #8B6914;
+    --color-gray: #555555;
+    --color-bg-dark: #8ec5d6;
+
+    --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-western: 'Buffalo Gal', serif;
+    --font-gothic: 'UnifrakturMaguntia', serif;
+
+    --container-width: 900px;
+    --nav-height: 70px;
+}
+
+/* Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    position: relative;
+}
+
+/* Scattered cowboy background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('images/Connors_cubanos__28US_Letter_29__282_29.png');
+    background-size: 200px;
+    background-repeat: repeat;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: -1;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+a:hover {
+    color: var(--color-black);
+}
+
+ul {
+    list-style: none;
+}
+
+/* Custom brand fonts */
+.font-western {
+    font-family: 'Buffalo Gal', serif !important;
+}
+
+.font-gothic {
+    font-family: 'UnifrakturMaguntia', serif !important;
+}
+
+.container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* Navigation */
+.nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--nav-height);
+    background: transparent;
+    z-index: 1000;
+    transition: background 0.3s ease;
+}
+
+.nav.scrolled,
+.nav.menu-open {
+    background: rgba(168, 216, 232, 0.95);
+    backdrop-filter: blur(10px);
+}
+
+.nav.hidden {
+    transform: translateY(-100%);
+}
+
+.nav-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    display: none; /* Removed - using logo image in hero instead */
+}
+
+.social-links {
+    display: flex;
+    gap: 16px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.social-links a:hover {
+    color: var(--color-black);
+    transform: scale(1.1);
+}
+
+.nav-menu {
+    display: flex;
+    gap: 32px;
+}
+
+.nav-menu a {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--color-text);
+    transition: all 0.3s ease;
+}
+
+/* Hero Section */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+}
+
+.hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.hero-logo {
+    max-width: 350px;
+    width: 100%;
+}
+
+.hero-logo-text {
+    font-size: 4rem;
+    line-height: 0.75;
+    margin: 0;
+    margin-top: calc(var(--nav-height) - 50px);
+    text-align: center;
+    letter-spacing: 0.05em
+}
+
+.hero-logo-text .font-western {
+    display: block;
+    font-size: 1.3em;
+    font-weight: 400;
+    transform: translateX(10px);
+}
+
+.hero-logo-text .font-gothic {
+    display: block;
+}
+
+.hero-sandwich {
+    max-width: 350px;
+    width: 100%;
+    border-radius: 8px;
+}
+
+.hero-tagline {
+    font-size: 1.8rem;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5em;
+    width: 100%;
+}
+
+.tagline-star {
+    height: 1.2em;
+    width: auto;
+}
+
+.hero-tagline .font-western {
+    font-family: var(--font-western);
+    text-transform: uppercase;
+    font-size: 1.5em;
+    transform: translateY(3px);
+    flex: 1;
+    text-align: right;
+}
+
+.hero-tagline .font-gothic {
+    font-family: 'IM Fell English SC', serif !important;
+    font-size: 0.8em;
+    flex: 1;
+    text-align: left;
+}
+
+.scroll-indicator {
+    margin-top: 20px;
+    animation: bounce 2s infinite;
+}
+
+.scroll-indicator svg {
+    opacity: 0.6;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(10px); }
+    60% { transform: translateY(5px); }
+}
+
+/* Section Styles */
+.section-title {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.section-title .font-western {
+    font-family: 'Buffalo Gal', serif !important;
+    font-size: 0.85em;
+    text-transform: uppercase;
+}
+
+.section-title .font-gothic {
+    font-family: 'Buffalo Gal', serif !important;
+    font-size: 1.5em;
+    letter-spacing: 0.5rem
+}
+
+/* Menu Section */
+.menu-section {
+    padding: 20px 0;
+    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-dark) 100%);
+}
+
+.menu-category {
+    margin-bottom: 48px;
+}
+
+.category-title {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.menu-item {
+    margin-bottom: 24px;
+}
+
+.menu-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 4px;
+}
+
+.menu-item-name {
+    font-family: 'UnifrakturMaguntia', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-black);
+}
+
+.menu-item-price {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+.menu-item-description {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.4rem;
+    color: var(--color-gray);
+    line-height: 1.5;
+}
+
+.extras-category .menu-item-name {
+    font-family: 'Buffalo Gal', serif;
+}
+
+/* Story Section */
+.story-section {
+    padding: 20px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.story-section .section-title .font-western {
+    font-family: 'Buffalo Gal', serif !important;
+    font-size: 1.2em;
+    letter-spacing: 0.5rem;
+}
+
+.story-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 32px;
+    align-items: center;
+}
+
+.story-text p {
+    font-family: 'IM Fell English SC', serif;
+    margin-bottom: 24px;
+    font-size: 1.5rem;
+    line-height: 1.8;
+    letter-spacing: 0.2rem;
+}
+
+.story-quote {
+    font-family: 'IM Fell English SC', serif;
+    font-style: italic;
+    color: var(--color-text-light);
+    border-left: 3px solid var(--color-gold);
+    padding-left: 20px;
+    margin-top: 32px;
+}
+
+.story-images {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.story-img {
+    border-radius: 8px;
+    max-width: 100%;
+}
+
+.story-img-fishing {
+    max-width: 280px;
+    align-self: flex-end;
+}
+
+.story-img-connor {
+    max-width: 320px;
+    align-self: flex-start;
+}
+
+.cowboy-decoration {
+    display: none; /* Now using scattered background pattern instead */
+}
+
+/* Find Us Section */
+.find-us-section {
+    padding: 100px 0;
+    background: var(--color-bg-dark);
+}
+
+.find-us-section .section-title .font-western,
+.find-us-section .section-title .font-gothic {
+    font-family: 'Buffalo Gal', serif !important;
+    font-size: 1.2em;
+    letter-spacing: 0.5rem;
+}
+
+.find-us-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+}
+
+.find-us-card h3 {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 16px;
+}
+
+.find-us-card p {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.5rem;
+    margin-bottom: 4px;
+}
+
+.directions-link {
+    font-family: 'UnifrakturMaguntia', serif;
+    display: inline-block;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text);
+    border-bottom: 1px solid var(--color-text);
+    padding-bottom: 2px;
+}
+
+.directions-link:hover {
+    color: var(--color-black);
+    border-color: var(--color-black);
+}
+
+.hours-list li {
+    font-family: 'Buffalo Gal', serif;
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 1.2em;
+}
+
+.hours-list li:last-child {
+    border-bottom: none;
+}
+
+/* Footer */
+.footer {
+    padding: 80px 0 40px;
+    text-align: center;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.footer-logo {
+    max-width: 150px;
+    margin: 0 auto 32px;
+    opacity: 0.8;
+}
+
+.footer-title {
+    font-size: 2.8rem;
+    margin: 0 auto 32px;
+    text-align: center;
+    letter-spacing: 0.1em;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.contact-email {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+}
+
+.contact-phone {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 1.3rem;
+}
+
+.footer-tagline {
+    font-size: 1.2rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+}
+
+.footer-tagline .font-western {
+    font-family: var(--font-western);
+    font-size: 1.3em;
+    transform: translateY(2px);
+}
+
+.footer-tagline .font-gothic {
+    font-family: 'IM Fell English SC', serif !important;
+    font-size: 0.85em;
+}
+
+.footer-tagline .tagline-star {
+    height: 1em;
+    width: auto;
+}
+
+.copyright {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 0.9rem;
+    color: var(--color-gray);
+    opacity: 0.6;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    :root {
+        --nav-height: 60px;
+    }
+
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(168, 216, 232, 0.98);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .nav-menu.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-menu a {
+        font-size: 1.25rem;
+    }
+
+    .nav-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .nav-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .hero-logo {
+        max-width: 250px;
+    }
+
+    .hero-logo-text {
+        font-size: 2.5rem;
+    }
+
+    .hero-sandwich {
+        max-width: 280px;
+    }
+
+    .hero-tagline {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 32px;
+    }
+
+    .menu-section,
+    .story-section,
+    .find-us-section {
+        padding: 80px 0;
+    }
+
+    .story-content {
+        grid-template-columns: 1fr;
+        gap: 48px;
+    }
+
+    .story-images {
+        order: -1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .story-img-fishing,
+    .story-img-connor {
+        max-width: 200px;
+    }
+
+    .cowboy-decoration {
+        display: none;
+    }
+
+    .find-us-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-logo {
+        max-width: 200px;
+    }
+
+    .hero-logo-text {
+        font-size: 2rem;
+    }
+
+    .hero-sandwich {
+        max-width: 220px;
+    }
+
+    .hero-tagline {
+        font-size: 0.85rem;
+    }
+
+    .menu-item-name {
+        font-size: 1.1rem;
+    }
+
+    .story-img-fishing,
+    .story-img-connor {
+        max-width: 150px;
+    }
+}

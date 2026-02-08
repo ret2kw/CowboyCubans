@@ -140,6 +140,7 @@ ul {
     -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     transition: background 0.3s ease;
+    border-radius: 0 0 24px 24px;
 }
 
 .nav.hidden {
@@ -159,13 +160,13 @@ ul {
 }
 
 .nav-container {
-    max-width: var(--container-width);
-    margin: 0 auto;
+    width: 100%;
     padding: 0 24px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 40px;
 }
 
 .nav-logo {
@@ -174,39 +175,47 @@ ul {
 
 .directions-links {
     display: flex;
-    gap: 12px;
-    margin-left: 24px;
+    align-items: center;
+    gap: 40px;
 }
 
 .directions-btn {
-    display: flex;
+    display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    gap: 3px;
     font-family: 'Buffalo Gal', serif;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    line-height: 1;
     color: var(--color-text);
-    background: rgba(142, 197, 214, 0.6);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    padding: 6px 12px;
-    border-radius: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: background 0.2s ease, transform 0.2s ease;
+    background: transparent;
+    padding: 0;
+    margin-top: 6px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .directions-btn:hover {
-    background: rgba(142, 197, 214, 0.8);
     transform: scale(1.05);
-    color: var(--color-black);
+    opacity: 0.7;
 }
 
 .directions-btn svg {
     flex-shrink: 0;
+    display: block;
+    width: 26px;
+    height: 26px;
+}
+
+.directions-btn.apple-maps svg {
+    width: 28px;
+    height: 28px;
 }
 
 .social-links {
     display: flex;
-    gap: 16px;
+    align-items: center;
+    gap: 40px;
 }
 
 .social-links a {
@@ -223,8 +232,8 @@ ul {
 }
 
 .social-links svg {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
 }
 
 .nav-menu {
@@ -558,8 +567,8 @@ ul {
     display: none; /* Now using scattered background pattern instead */
 }
 
-/* Find Us Section */
-.find-us-section {
+/* Hours Section */
+.hours-section {
     padding: 20px 0;
     background: rgba(142, 197, 214, 0.5);
     backdrop-filter: blur(10px);
@@ -571,26 +580,9 @@ ul {
     z-index: 2;
 }
 
-.find-us-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-}
-
-.find-us-card h3 {
-    font-family: 'Buffalo Gal', serif;
-    font-size: 1.5rem;
-    font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-gold);
-    margin-bottom: 16px;
-}
-
-.find-us-card p {
-    font-family: 'Buffalo Gal', serif;
-    font-size: 1.8rem;
-    margin-bottom: 4px;
+.hours-section .hours-list {
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .directions-link {
@@ -623,12 +615,11 @@ ul {
 }
 
 .map-container {
-    margin-top: 20px;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 300px;
-    height: 300px;
+    width: 280px;
+    height: 180px;
 }
 
 .map-container iframe {
@@ -658,21 +649,73 @@ ul {
     letter-spacing: 0.1em;
 }
 
-.contact-info {
+.contact-stack {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    align-items: center;
+    gap: 20px;
+}
+
+.location-address {
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.8rem;
+    text-align: center;
+    background: none;
+    border: none;
+    color: inherit;
+    cursor: pointer;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: background 0.2s ease;
+    position: relative;
+}
+
+.location-address:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.location-address:active {
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.location-address p {
+    margin: 0;
+}
+
+.copy-tooltip {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.4) 0%, rgba(142, 197, 214, 0.4) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-text);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+
+.location-address.copied .copy-tooltip {
+    opacity: 1;
+    visibility: visible;
 }
 
 .contact-email {
     font-family: 'Buffalo Gal', serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.05em;
+    font-size: 1.6rem;
+    letter-spacing: 0.02em;
 }
 
 .contact-phone {
     font-family: 'IM Fell English SC', serif;
-    font-size: 1.3rem;
+    font-size: 1.5rem;
 }
 
 .footer-austex {
@@ -704,23 +747,32 @@ ul {
 
     .nav-container {
         justify-content: flex-start;
+        padding-right: 60px;
+        gap: 32px;
     }
 
     .directions-links {
-        margin-left: auto;
-        margin-right: 60px;
-        gap: 8px;
+        gap: 32px;
+    }
+
+    .social-links {
+        gap: 32px;
     }
 
     .directions-btn {
-        font-size: 0.7rem;
-        padding: 5px 8px;
-        gap: 4px;
+        font-size: 1rem;
+        gap: 3px;
+        margin-top: 5px;
     }
 
     .directions-btn svg {
-        width: 14px;
-        height: 14px;
+        width: 22px;
+        height: 22px;
+    }
+
+    .directions-btn.apple-maps svg {
+        width: 24px;
+        height: 24px;
     }
 
     .nav-menu {
@@ -798,7 +850,7 @@ ul {
 
     .menu-section,
     .story-section,
-    .find-us-section {
+    .hours-section {
         padding: 80px 0;
     }
 
@@ -823,10 +875,6 @@ ul {
         display: none;
     }
 
-    .find-us-grid {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
 }
 
 @media (max-width: 480px) {

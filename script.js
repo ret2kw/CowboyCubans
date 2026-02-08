@@ -125,3 +125,32 @@ navMenu.querySelectorAll('a').forEach(link => {
         setTimeout(closeMenu, 100);
     });
 });
+
+// Copy address to clipboard
+const copyAddressBtn = document.getElementById('copy-address');
+if (copyAddressBtn) {
+    copyAddressBtn.addEventListener('click', async () => {
+        const address = copyAddressBtn.dataset.address;
+        try {
+            await navigator.clipboard.writeText(address);
+            copyAddressBtn.classList.add('copied');
+            setTimeout(() => {
+                copyAddressBtn.classList.remove('copied');
+            }, 2000);
+        } catch (err) {
+            // Fallback for older browsers
+            const textArea = document.createElement('textarea');
+            textArea.value = address;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            copyAddressBtn.classList.add('copied');
+            setTimeout(() => {
+                copyAddressBtn.classList.remove('copied');
+            }, 2000);
+        }
+    });
+}

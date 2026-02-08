@@ -68,17 +68,19 @@ body {
 }
 
 .cowboy-bg-grid {
+    /* Tile size scales with viewport: 300px mobile -> 500px desktop */
+    --tile-size: clamp(300px, 30vw, 500px);
     display: grid;
-    grid-template-columns: repeat(var(--cols), 250px);
-    grid-template-rows: repeat(var(--rows), 250px);
+    grid-template-columns: repeat(var(--cols), var(--tile-size));
+    grid-template-rows: repeat(var(--rows), var(--tile-size));
     position: absolute;
-    top: -125px;
-    left: 0;
+    top: calc(var(--tile-size) * -0.5);
+    left: calc(var(--tile-size) * -0.5);
 }
 
 .cowboy-tile {
-    width: 250px;
-    height: 250px;
+    width: var(--tile-size);
+    height: var(--tile-size);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,8 +88,9 @@ body {
 }
 
 .cowboy-tile img {
-    width: 200px;
-    height: 200px;
+    /* Image is ~70% of tile size */
+    width: calc(var(--tile-size) * 0.7);
+    height: calc(var(--tile-size) * 0.7);
     object-fit: contain;
     opacity: 0.25;
 }
@@ -574,7 +577,7 @@ ul {
 
 /* Story Section */
 .story-section {
-    padding: 20px 0;
+    padding: 60px 0 20px;
     position: relative;
     overflow: hidden;
     z-index: 2;
@@ -680,8 +683,9 @@ ul {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    width: 280px;
-    height: 180px;
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 16 / 10;
 }
 
 .map-container iframe {
@@ -692,10 +696,14 @@ ul {
 
 /* Footer */
 .footer {
-    padding: 20px 0 40px;
+    padding: 60px 0 40px;
     text-align: center;
     position: relative;
     z-index: 2;
+}
+
+.footer .section-title {
+    margin-bottom: 12px;
 }
 
 .footer-logo {
@@ -740,12 +748,12 @@ ul {
 .location-address::before {
     content: 'Copy';
     position: absolute;
-    top: -40px;
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(180deg, rgba(168, 216, 232, 0.85) 0%, rgba(142, 197, 214, 0.85) 100%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.25) 0%, rgba(142, 197, 214, 0.25) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     color: var(--color-text);
     padding: 6px 14px;
     border-radius: 8px;
@@ -754,7 +762,7 @@ ul {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     white-space: nowrap;
 }
 
@@ -772,12 +780,12 @@ ul {
 /* "Copied!" tooltip after clicking */
 .copy-tooltip {
     position: absolute;
-    top: -40px;
+    top: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(180deg, rgba(168, 216, 232, 0.85) 0%, rgba(142, 197, 214, 0.85) 100%);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.25) 0%, rgba(142, 197, 214, 0.25) 100%);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     color: var(--color-text);
     padding: 6px 14px;
     border-radius: 8px;
@@ -786,7 +794,7 @@ ul {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     white-space: nowrap;
 }
 

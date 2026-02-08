@@ -36,8 +36,8 @@ function createCowboyBackground() {
         tile.appendChild(img);
         grid.appendChild(tile);
 
-        // Assign random starting rotation (-45 to 45 degrees)
-        startingRotations.push((Math.random() * 90) - 45);
+        // Assign random starting rotation (-15 to 45 degrees, biased upward for bucking look)
+        startingRotations.push((Math.random() * 60) - 15);
     }
 
     container.appendChild(grid);
@@ -84,6 +84,13 @@ window.addEventListener('scroll', () => {
         nav.classList.add('hidden');
         navMenu.classList.add('hidden');
         navToggle.classList.add('hidden');
+        // Close map dropdown when nav hides
+        const mapDropdown = document.getElementById('map-dropdown');
+        const mapBtn = document.getElementById('map-btn');
+        if (mapDropdown && mapBtn) {
+            mapDropdown.classList.remove('active');
+            mapBtn.setAttribute('aria-expanded', 'false');
+        }
     } else if (currentScrollY < lastScrollY && !isNearBottom) {
         nav.classList.remove('hidden');
         navMenu.classList.remove('hidden');
@@ -126,31 +133,80 @@ navMenu.querySelectorAll('a').forEach(link => {
     });
 });
 
-// Copy address to clipboard
+// Copy address to clipboard helper
+async function copyAddress(element) {
+    const address = element.dataset.address;
+    try {
+        await navigator.clipboard.writeText(address);
+        return true;
+    } catch (err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = address;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        return true;
+    }
+}
+
+// Footer copy address button
 const copyAddressBtn = document.getElementById('copy-address');
 if (copyAddressBtn) {
     copyAddressBtn.addEventListener('click', async () => {
-        const address = copyAddressBtn.dataset.address;
-        try {
-            await navigator.clipboard.writeText(address);
-            copyAddressBtn.classList.add('copied');
-            setTimeout(() => {
-                copyAddressBtn.classList.remove('copied');
-            }, 2000);
-        } catch (err) {
-            // Fallback for older browsers
-            const textArea = document.createElement('textarea');
-            textArea.value = address;
-            textArea.style.position = 'fixed';
-            textArea.style.opacity = '0';
-            document.body.appendChild(textArea);
-            textArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textArea);
-            copyAddressBtn.classList.add('copied');
-            setTimeout(() => {
-                copyAddressBtn.classList.remove('copied');
-            }, 2000);
+        await copyAddress(copyAddressBtn);
+        copyAddressBtn.classList.add('copied');
+        setTimeout(() => {
+            copyAddressBtn.classList.remove('copied');
+        }, 2000);
+    });
+}
+
+// Map dropdown in navbar
+const mapBtn = document.getElementById('map-btn');
+const mapDropdown = document.getElementById('map-dropdown');
+const copyAddressNav = document.getElementById('copy-address-nav');
+
+if (mapBtn && mapDropdown) {
+    // Toggle dropdown on button click
+    mapBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = mapDropdown.classList.toggle('active');
+        mapBtn.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!mapDropdown.contains(e.target) && !mapBtn.contains(e.target)) {
+            mapDropdown.classList.remove('active');
+            mapBtn.setAttribute('aria-expanded', 'false');
         }
+    });
+
+    // Close dropdown after clicking a link (let the link work first)
+    mapDropdown.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            setTimeout(() => {
+                mapDropdown.classList.remove('active');
+                mapBtn.setAttribute('aria-expanded', 'false');
+            }, 100);
+        });
+    });
+}
+
+// Copy address from navbar dropdown
+if (copyAddressNav) {
+    copyAddressNav.addEventListener('click', async (e) => {
+        e.stopPropagation();
+        await copyAddress(copyAddressNav);
+        copyAddressNav.classList.add('copied');
+        setTimeout(() => {
+            copyAddressNav.classList.remove('copied');
+            mapDropdown.classList.remove('active');
+            mapBtn.setAttribute('aria-expanded', 'false');
+        }, 1500);
     });
 }

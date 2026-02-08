@@ -140,7 +140,22 @@ ul {
     -webkit-backdrop-filter: blur(10px);
     z-index: 1000;
     transition: background 0.3s ease;
-    border-radius: 0 0 24px 24px;
+}
+
+/* Gradient fade at bottom of navbar */
+.nav::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: linear-gradient(180deg, rgba(142, 197, 214, 0.5) 0%, rgba(142, 197, 214, 0) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    mask-image: linear-gradient(180deg, black 0%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, black 0%, transparent 100%);
+    pointer-events: none;
 }
 
 .nav.hidden {
@@ -173,49 +188,96 @@ ul {
     display: none; /* Removed - using logo image in hero instead */
 }
 
-.directions-links {
-    display: flex;
-    align-items: center;
-    gap: 40px;
+/* Map dropdown */
+.map-dropdown-wrapper {
+    position: relative;
 }
 
-.directions-btn {
-    display: inline-flex;
-    flex-direction: column;
+.map-btn {
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 3px;
-    font-family: 'Buffalo Gal', serif;
-    font-size: 1.1rem;
-    line-height: 1;
-    color: var(--color-text);
     background: transparent;
-    padding: 0;
-    margin-top: 6px;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    color: var(--color-text);
     transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.directions-btn:hover {
-    transform: scale(1.05);
-    opacity: 0.7;
+.map-btn:hover {
+    transform: scale(1.1);
+    opacity: 0.8;
 }
 
-.directions-btn svg {
+.map-btn svg {
+    width: 36px;
+    height: 36px;
+}
+
+.map-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.85) 0%, rgba(142, 197, 214, 0.85) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+    z-index: 1020;
+    overflow: hidden;
+}
+
+.map-dropdown.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.map-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px 12px 14px 16px;
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.35rem;
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.map-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.map-dropdown-item svg {
+    width: 24px;
+    height: 24px;
     flex-shrink: 0;
-    display: block;
-    width: 26px;
-    height: 26px;
 }
 
-.directions-btn.apple-maps svg {
-    width: 28px;
-    height: 28px;
+.map-dropdown-item.copied .copy-text {
+    color: #22c55e;
+}
+
+.map-dropdown-item.copied .copy-text::after {
+    content: ' ✓';
 }
 
 .social-links {
     display: flex;
     align-items: center;
-    gap: 40px;
+    gap: 56px;
 }
 
 .social-links a {
@@ -232,8 +294,8 @@ ul {
 }
 
 .social-links svg {
-    width: 32px;
-    height: 32px;
+    width: 40px;
+    height: 40px;
 }
 
 .nav-menu {
@@ -670,24 +732,50 @@ ul {
     position: relative;
 }
 
-.location-address:hover {
-    background: rgba(0, 0, 0, 0.1);
-}
-
-.location-address:active {
-    background: rgba(0, 0, 0, 0.15);
-}
-
 .location-address p {
     margin: 0;
 }
 
+/* "Copy" tooltip on hover */
+.location-address::before {
+    content: 'Copy';
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.85) 0%, rgba(142, 197, 214, 0.85) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--color-text);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1.1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    white-space: nowrap;
+}
+
+.location-address:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide "Copy" tooltip when showing "Copied!" */
+.location-address.copied::before {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* "Copied!" tooltip after clicking */
 .copy-tooltip {
     position: absolute;
     top: -40px;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(180deg, rgba(168, 216, 232, 0.4) 0%, rgba(142, 197, 214, 0.4) 100%);
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.85) 0%, rgba(142, 197, 214, 0.85) 100%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     color: var(--color-text);
@@ -751,28 +839,14 @@ ul {
         gap: 32px;
     }
 
-    .directions-links {
-        gap: 32px;
-    }
-
     .social-links {
-        gap: 32px;
-    }
-
-    .directions-btn {
-        font-size: 1rem;
-        gap: 3px;
+        gap: 44px;
         margin-top: 5px;
     }
 
-    .directions-btn svg {
-        width: 22px;
-        height: 22px;
-    }
-
-    .directions-btn.apple-maps svg {
-        width: 24px;
-        height: 24px;
+    .map-btn svg {
+        width: 32px;
+        height: 32px;
     }
 
     .nav-menu {

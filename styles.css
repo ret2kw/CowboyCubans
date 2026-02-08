@@ -43,11 +43,12 @@
 
 html {
     scroll-behavior: smooth;
+    background-color: var(--color-bg);
 }
 
 body {
     font-family: var(--font-body);
-    background-color: var(--color-bg);
+    background-color: transparent;
     color: var(--color-text);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -62,7 +63,7 @@ body {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
     overflow: hidden;
 }
 
@@ -88,7 +89,7 @@ body {
     width: 200px;
     height: 200px;
     object-fit: contain;
-    opacity: 0.1;
+    opacity: 0.25;
 }
 
 img {
@@ -161,6 +162,38 @@ ul {
 
 .nav-logo {
     display: none; /* Removed - using logo image in hero instead */
+}
+
+.directions-links {
+    display: flex;
+    gap: 12px;
+    margin-right: 24px;
+}
+
+.directions-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Buffalo Gal', serif;
+    font-size: 1rem;
+    color: var(--color-text);
+    background: rgba(142, 197, 214, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.directions-btn:hover {
+    background: rgba(142, 197, 214, 0.8);
+    transform: scale(1.05);
+    color: var(--color-black);
+}
+
+.directions-btn svg {
+    flex-shrink: 0;
 }
 
 .social-links {
@@ -240,14 +273,18 @@ ul {
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 24px;
+    padding: clamp(16px, 4vw, 48px);
+    position: relative;
+    z-index: 2;
 }
 
 .hero-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 24px;
+    gap: clamp(12px, 2vh, 24px);
+    max-width: 90vw;
+    margin-top: -3vh;
 }
 
 .hero-logo {
@@ -256,10 +293,9 @@ ul {
 }
 
 .hero-logo-text {
-    font-size: 4rem;
+    font-size: clamp(3rem, 12vw, 4rem);
     line-height: 0.75;
     margin: 0;
-    margin-top: calc(var(--nav-height) - 50px);
     text-align: center;
     letter-spacing: 0.05em
 }
@@ -276,20 +312,20 @@ ul {
 }
 
 .hero-sandwich {
-    max-width: 350px;
-    width: 100%;
+    width: clamp(240px, 50vw, 320px);
+    max-width: 85vw;
     border-radius: 8px;
 }
 
 .hero-tagline {
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
     letter-spacing: 0.08em;
     color: var(--color-text-light);
     text-transform: uppercase;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1.5em;
+    gap: clamp(0.5em, 2vw, 1.5em);
     width: 100%;
 }
 
@@ -315,7 +351,7 @@ ul {
 }
 
 .scroll-indicator {
-    margin-top: 20px;
+    margin-top: 0;
     animation: bounce 2s infinite;
 }
 
@@ -388,11 +424,14 @@ ul {
 /* Menu Section */
 .menu-section {
     padding: 20px 0;
-    background: linear-gradient(180deg, var(--color-bg) 0%, var(--color-bg-dark) 100%);
+    background: linear-gradient(180deg, rgba(168, 216, 232, 0.5) 0%, rgba(142, 197, 214, 0.5) 100%);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 24px;
     margin: 0 16px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     position: relative;
+    z-index: 2;
 }
 
 .menu-category {
@@ -454,6 +493,7 @@ ul {
     padding: 20px 0;
     position: relative;
     overflow: hidden;
+    z-index: 2;
 }
 
 .story-content {
@@ -508,11 +548,14 @@ ul {
 /* Find Us Section */
 .find-us-section {
     padding: 20px 0;
-    background: var(--color-bg-dark);
+    background: rgba(142, 197, 214, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border-radius: 24px;
     margin: 0 16px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     position: relative;
+    z-index: 2;
 }
 
 .find-us-grid {
@@ -585,6 +628,8 @@ ul {
 .footer {
     padding: 20px 0 40px;
     text-align: center;
+    position: relative;
+    z-index: 2;
 }
 
 .footer-logo {
@@ -646,6 +691,27 @@ ul {
 
     .nav-container {
         justify-content: flex-start;
+    }
+
+    .directions-links {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        padding: 12px;
+        background: rgba(168, 216, 232, 0.95);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 1000;
+        margin-right: 0;
+    }
+
+    .directions-btn {
+        font-size: 0.9rem;
+        padding: 10px 16px;
     }
 
     .nav-menu {
@@ -712,21 +778,7 @@ ul {
         transform: rotate(-45deg) translate(5px, -5px);
     }
 
-    .hero-logo {
-        max-width: 250px;
-    }
-
-    .hero-logo-text {
-        font-size: 2.5rem;
-    }
-
-    .hero-sandwich {
-        max-width: 280px;
-    }
-
-    .hero-tagline {
-        font-size: 1rem;
-    }
+    /* Hero scales fluidly via clamp(), no overrides needed */
 
     .section-title {
         font-size: 1.5rem;
@@ -767,21 +819,7 @@ ul {
 }
 
 @media (max-width: 480px) {
-    .hero-logo {
-        max-width: 200px;
-    }
-
-    .hero-logo-text {
-        font-size: 2rem;
-    }
-
-    .hero-sandwich {
-        max-width: 220px;
-    }
-
-    .hero-tagline {
-        font-size: 0.85rem;
-    }
+    /* Hero scales fluidly via clamp(), no overrides needed */
 
     .menu-item-name {
         font-size: 1.1rem;

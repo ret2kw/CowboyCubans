@@ -270,7 +270,7 @@ ul {
 }
 
 .map-dropdown-item.copied .copy-text {
-    color: #22c55e;
+    color: var(--color-gray);
 }
 
 .map-dropdown-item.copied .copy-text::after {

@@ -8,6 +8,8 @@ const navOverlay = document.getElementById('nav-overlay');
 let lastScrollY = window.scrollY;
 
 // Create cowboy background grid
+const startingRotations = []; // Store random starting angles
+
 function createCowboyBackground() {
     const container = document.createElement('div');
     container.className = 'cowboy-bg';
@@ -33,6 +35,9 @@ function createCowboyBackground() {
         img.setAttribute('aria-hidden', 'true');
         tile.appendChild(img);
         grid.appendChild(tile);
+
+        // Assign random starting rotation (-45 to 45 degrees)
+        startingRotations.push((Math.random() * 90) - 45);
     }
 
     container.appendChild(grid);
@@ -53,9 +58,10 @@ function updateCowboyRotation() {
     cowboyTiles.forEach((tile, index) => {
         // Offset each tile's phase slightly for a wave effect
         const phaseOffset = index * 0.5;
-        // Use sine wave for back-and-forth motion
-        const rotation = Math.sin((scrollY * frequency) + phaseOffset) * maxRotation;
-        tile.style.transform = `rotate(${rotation}deg)`;
+        // Use sine wave for back-and-forth motion, add random starting rotation
+        const scrollRotation = Math.sin((scrollY * frequency) + phaseOffset) * maxRotation;
+        const totalRotation = startingRotations[index] + scrollRotation;
+        tile.style.transform = `rotate(${totalRotation}deg)`;
     });
 }
 

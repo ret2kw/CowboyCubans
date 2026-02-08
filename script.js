@@ -75,13 +75,19 @@ window.addEventListener('scroll', () => {
         nav.classList.remove('scrolled');
     }
 
-    // Hide nav on scroll down, show on scroll up
+    // Hide nav on scroll down, show only on scroll up
+    // Ignore rubber-band bounce at bottom of page (Safari/iOS)
+    const distanceFromBottom = document.body.scrollHeight - (window.innerHeight + currentScrollY);
+    const isNearBottom = distanceFromBottom < 50;
+
     if (currentScrollY > lastScrollY && currentScrollY > 100) {
         nav.classList.add('hidden');
         navMenu.classList.add('hidden');
-    } else {
+        navToggle.classList.add('hidden');
+    } else if (currentScrollY < lastScrollY && !isNearBottom) {
         nav.classList.remove('hidden');
         navMenu.classList.remove('hidden');
+        navToggle.classList.remove('hidden');
     }
 
     // Update cowboy rotation
